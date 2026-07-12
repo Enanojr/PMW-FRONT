@@ -23,7 +23,23 @@ class DocumentoSerializer(serializers.ModelSerializer):
         read_only_fields = ["subido_por", "tamano_bytes", "creado_en"]
 
     def get_url_descarga(self, obj) -> str:
-        return obtener_backend(obj).url_descarga(obj)
+        """
+        URL absoluta al backend. En producción el front vive en otro dominio
+        (Vercel), así que un enlace relativo /media/... apuntaría a Vercel;
+        se resuelve contra el host del backend. Las URLs ya absolutas
+        (Alfresco) se devuelven tal cual.
+        """
+        url = obtener_backend(obj).url_descarga(obj)
+        if not url:
+            return ""
+        if url.startswith(("http://", "https://")):
+            return url
+        request = self.context.get("request")
+        if request is None:
+            return url
+        if not url.startswith("/"):
+            url = "/" + url
+        return request.build_absolute_uri(url)
 
     def validate(self, attrs):
         backend = attrs.get("backend_almacenamiento", getattr(self.instance, "backend_almacenamiento", "LOCAL"))

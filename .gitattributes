@@ -1,0 +1,3 @@
+# Los scripts de shell SIEMPRE con finales de línea LF, aunque se editen en
+# Windows: si se suben con CRLF, bash en Render falla con "$'\r': command not found".
+*.sh text eol=lf
