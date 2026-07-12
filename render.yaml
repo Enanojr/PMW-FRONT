@@ -1,0 +1,34 @@
+# Blueprint de Render para el backend Django.
+# La base de datos vive en Neon (no se crea aquí); su cadena de conexión
+# se pasa como variable de entorno DATABASE_URL.
+services:
+  - type: web
+    name: kyocera-mantenimiento-api
+    runtime: python
+    plan: free
+    rootDir: back
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      # Django 5.0 soporta oficialmente hasta Python 3.12.
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: SECRET_KEY
+        generateValue: true          # Render genera una clave segura
+      - key: DEBUG
+        value: "False"
+      - key: CELERY_TASK_ALWAYS_EAGER
+        value: "True"                 # notificaciones en línea, sin Redis
+      # --- Estas las pegas tú en el panel (Environment) ---
+      - key: DATABASE_URL             # cadena de conexión de Neon
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS     # https://tu-app.vercel.app
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS     # https://tu-app.vercel.app
+        sync: false
+      - key: ADMIN_USERNAME           # admin inicial (primer deploy)
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
