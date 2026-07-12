@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-smoke font-sans text-ink antialiased;
+  }
+  ::selection {
+    @apply bg-kyocera-500/15;
+  }
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-black/10;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* Superficie base: tarjeta blanca con borde y sombra sutiles */
+  .card {
+    @apply rounded-2xl bg-white shadow-card ring-1 ring-black/[0.04];
+  }
+
+  /* Botones tipo píldora */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-black hover:shadow-pop active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-kyocera-600 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-kyocera-700 hover:shadow-pop active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-ink transition-all duration-200 hover:bg-black/[0.04] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  /* Campos de formulario */
+  .input-field {
+    @apply w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-silver/70 focus:border-black/25 focus:ring-4 focus:ring-black/[0.05];
+  }
+  .label-field {
+    @apply mb-1.5 block text-[13px] font-medium text-silver;
+  }
+
+  /* Encabezados de página */
+  .page-title {
+    @apply text-[28px] font-semibold tracking-tight text-ink;
+  }
+  .page-subtitle {
+    @apply mt-1 text-sm text-silver;
+  }
+}
